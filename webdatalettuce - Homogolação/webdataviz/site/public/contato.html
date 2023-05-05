@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato</title>
+    <link rel="stylesheet" href="css/Contato.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="shortcut icon" href="assets/imgs/Logo-Borda.png" type="image/x-icon">
+</head>
+<body>
+
+    <div class="boxbar">
+
+        <img class="logo" src="assets/imgs/LOGO.png" alt="logo lettuce company">
+
+        <h2>Lettuce Company</h2>
+
+        <ul class="navbar">
+            <li><a href="index.html">Home</a></li> 
+            <li> | </li>
+            <li><a href="login.html">Login</a></li>
+            <li> | </li>
+            <li><a href="Sobre-Nos.html">Sobre Nós</a></li>
+            <li> | </li>
+            <li><a href="Sobre-Projeto.html">Sobre o Projeto</a></li>
+        </ul>
+    </div>
+    
+    <div class="containerContato">
+
+        <div><h1>Entre em contato conosco!</h1></div>
+
+        <div><input id="input_nome" placeholder="Insira seu nome"></div>
+        <div><input id="input_email" placeholder="Insira seu e-mail"></div>
+        <div><input class="mensagem" id="input_mensagem" placeholder="Sua mensagem"></div>
+
+        <div><button onclick="enviar()"><a href="index.html">Enviar</a></button></div>
+
+    </div>
+
+    <div class="suporte">
+        <div><h6>suporte@lettucecompany.com</h6></div>
+    </div>
+
+    <div class="footer">
+        <p class="msg_footer">
+            LettuceCompany©
+        </p>
+        <a href="contato.html">CONTATO</a>
+    </div>
+
+
+</body>
+</html>
+<script>
+
+    function enviar(){
+        alert(`Olá ${input_nome.value}, mensagem enviada com sucesso!.`)
+    }
+
+</script>

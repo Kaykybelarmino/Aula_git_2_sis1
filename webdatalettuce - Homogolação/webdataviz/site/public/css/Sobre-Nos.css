@@ -1,0 +1,104 @@
+
+body{
+    background-color: #deffc7;
+}
+
+.content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.container .divTitulo {
+    justify-content: center;
+    flex-direction: column;
+    height: 55px;
+   
+}
+
+.divTitulo{
+    display: flex;
+    margin-top: 1%;
+    width: 20%;
+    height: 20%;
+    border: 3px solid #8cd147;
+    border-radius: 100px;
+    background-color: #8cd147;
+    align-content: center;
+  
+}
+.divTitulo h1{
+    font-size: 25px;
+    align-self: center;
+}
+.divAbout{
+    padding: 10px 10px 1px 10px;
+    font-size: 19px;
+    text-align: justify;
+}
+
+.social .container .card img{
+    width: 100px;
+    height: 100px;
+}
+
+.social .cardImg{
+    width: 100%;
+    height: 50%;
+    text-align: center;
+}
+
+.cardImg{
+    background-image: url(../assets/imgs/Box.PNG);
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+
+.social .container{
+    justify-content: space-around;
+}
+.social{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    height: 200px;
+    padding: 30px;
+    margin: 2%;
+    background-color: #f1ffe9;
+    border: #afc196 1px solid;
+    border-radius: 15px;
+    border-width: 2px;
+}
+
+.card h4{
+    color: #0e2b0e;
+} 
+.card p{
+    width: 300px;
+    text-align: justify;
+} 
+
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #8cd147;
+    width: 100%;
+    height: 91px;
+    align-self: flex-end;
+}
+
+.msg_footer {
+    color: #482c1d;
+    font-size: smaller;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode',
+     'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}

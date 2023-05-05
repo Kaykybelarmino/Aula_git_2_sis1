@@ -1,0 +1,558 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="http://www.chartjs.org/dist/2.7.1/Chart.js"></script>
+    <script src="http://www.chartjs.org/samples/latest/utils.js"></script>
+
+    <!-- scripts do Chart.js - 2022-1 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="Dashboard.css">
+    <link rel="stylesheet" href="Card.css">
+    <script src="main.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="shortcut icon" href="../assets/imgs/Logo-Borda.png" type="image/x-icon">
+    <style>
+        canvas {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    </div>
+    <section class="main">
+        <div class="header-left dash-header">
+            <div class="sidebar-logo">
+                <img src="../assets/imgs/Logo-Borda.png" alt="Alface lettuce company">
+            </div>
+            <h3>Dashboard</h3>
+            <span class="sidebar-active" class="fa-solid fa-user">Bem vindo, Usuário</span>
+            <a href="Dashboard.html"><i class="fa-solid fa-user" class></i>Home</a>
+            <a href="" class="funcionario"><i class="fa-solid fa-id-card"></i>Cadastrar Funcionário</i></a>
+            <a href="" class="funcionario"><i class="fa-solid fa-truck-arrow-right"></i>Cadastrar Caminhão</i></a>
+            <a href="" class="funcionario"><i class="fa-solid fa-truck-ramp-box"></i>Cadastrar Carga</a>
+            <a href="../index.html" class="funcionario"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
+            <br />
+            <select name="pesquisa_caminhao" id="select_caminhão" onchange="location = this.value;"><i
+                    class="fa-solid fa-truck-fast"></i>
+                <option value="">Pesquisar Caminhão</option>
+                <option value="">Macro</option>
+                <option value="Card_1.html">CBW-600</option>
+                <option value="Card_2.html">GDU-2589</option>
+            </select>
+        </div>
+
+
+
+        </div>
+
+        </div>
+
+        <div class="dash">
+
+            <div class="regua-macro">
+                <div class="item-regua-macro temp Atencao">
+                    <h4>Registros de Atenção esse mês</h4>
+                    <h2>15</h2>
+                </div>
+
+                <div class="item-regua-macro umid Emergencia">
+                    <h4>Registros de Emergência esse mês</h4>
+                    <h2>8</h2>
+                </div>
+                <div class="item-regua-macro umid Critico">
+                    <h4>Registros Críticos esse mês</h4>
+                    <h2>3</h2>
+                </div>
+
+            </div>
+            <div class="regua-macro">
+                <div class="item-regua-macro temp Atencao">
+                    <h4>Registros de Atenção esse ano</h4>
+                    <h2>32</h2>
+                </div>
+
+                <div class="item-regua-macro umid Emergencia">
+                    <h4>Registros de Emergência esse ano</h4>
+                    <h2>17</h2>
+                </div>
+                <div class="item-regua-macro umid Critico">
+                    <h4>Registros Críticos esse ano</h4>
+                    <h2>3</h2>
+                </div>
+            </div>
+
+
+            <div class="regua-macro">
+                <div class="item-regua dados">
+                    <h2>Umidade Mín/Max</h2>
+                    <h4>90% | 94%</h4>
+                </div>
+                <div class="item-regua dados">
+                    <h2>Temperatura Mín/Max</h2>
+                    <h4>0°C | 3°C</h4>
+                </div>
+
+                <div class="item-regua dados">
+                    <h2>Qtd de Veiculos</h2>
+                    <h4>2</h4>
+                </div>
+                <div class="item-regua dados">
+                    <h4>Sensores Utilizados</h4>
+                    <h2>LM35 <br> DHT11</h2>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <!--<section>
+            <h1>Sensor DHT 11 - Temperatura</h1>
+        <section style="width: 100%;">
+            <canvas id="dht11Temperatura"></canvas>
+        </section> -->
+        <!-- <h1>Sensor Luminosidade</h1>
+        <section style="width: 100%;">
+            <canvas id="luminosidade"></canvas>
+        </section> -->
+
+        <!-- <h1>Sensor Chave</h1>
+        <section style="width: 100%;">
+            <canvas id="chave"></canvas>
+        </section> -->
+
+        <script>
+
+
+            b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
+            let proximaAtualizacao;
+
+            window.onload = obterDadosGraficos();
+
+            function obterDadosGraficos() {
+                obterDadosGrafico(0)
+                obterDadosGrafico(1)
+            }
+            
+            function obterDadosGrafico(idLeitura) {
+
+                if (proximaAtualizacao != undefined) {
+                    clearTimeout(proximaAtualizacao);
+                }
+
+                fetch(`/medidas/ultimas/${idLeitura}`, { cache: 'no-store' }).then(function (response) {
+                    if (response.ok) {
+                        response.json().then(function (resposta) {
+                            console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                            resposta.reverse();
+                            plotarGrafico(resposta, idLeitura);
+                        });
+                    } else {
+                        console.error('Nenhum dado encontrado ou erro na API');
+                    }
+                })
+                    .catch(function (error) {
+                        console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+                    });
+            }
+
+            function atualizarGrafico(idLeitura, dados, myChart) {
+
+
+
+    fetch(`/medidas/tempo-real/${idLeitura}`, { cache: 'no-store' }).then(function (response) {
+    if (response.ok) {
+        response.json().then(function (novoRegistro) {
+
+            console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
+            console.log(`Dados atuais do gráfico:`);
+            console.log(dados);
+
+            let avisoCaptura = document.getElementById(`avisoCaptura${idLeitura}`)
+            avisoCaptura.innerHTML = ""
+
+
+            if (novoRegistro[0].momento_grafico == dados.labels[dados.labels.length - 1]) {
+                console.log("---------------------------------------------------------------")
+                console.log("Como não há dados novos para captura, o gráfico não atualizará.")
+                avisoCaptura.innerHTML = "<i class='fa-solid fa-triangle-exclamation'></i> Foi trazido o dado mais atual capturado pelo sensor. <br> Como não há dados novos a exibir, o gráfico não atualizará."
+                console.log("Horário do novo dado capturado:")
+                console.log(novoRegistro[0].momento_grafico)
+                console.log("Horário do último dado capturado:")
+                console.log(dados.labels[dados.labels.length - 1])
+                console.log("---------------------------------------------------------------")
+            } else {
+                // tirando e colocando valores no gráfico
+                dados.labels.shift(); // apagar o primeiro
+                dados.labels.push(novoRegistro[0].momento_grafico); // incluir um novo momento
+
+                dados.datasets[0].data.shift();  // apagar o primeiro de umidade
+                dados.datasets[0].data.push(novoRegistro[0].umidade); // incluir uma nova medida de umidade
+
+                dados.datasets[1].data.shift();  // apagar o primeiro de temperatura
+                dados.datasets[1].data.push(novoRegistro[0].temperatura); // incluir uma nova medida de temperatura
+
+                myChart.update();
+            }
+
+            // Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
+            proximaAtualizacao = setTimeout(() => atualizarGrafico(idLeitura, dados, myChart), 2000);
+        });
+    } else {
+        console.error('Nenhum dado encontrado ou erro na API');
+        // Altere aqui o valor em ms se quiser que o gráfico atualize mais rápido ou mais devagar
+        proximaAtualizacao = setTimeout(() => atualizarGrafico(idLeitura, dados, myChart), 2000);
+    }
+})
+    .catch(function (error) {
+        console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+    });
+            }
+
+            /* -- dht11Umidade -- */
+            var contextoDht11Umidade = document.getElementById('dht11Umidade').getContext('2d');
+            contextoDht11Umidade.canvas.width = 1000;
+            contextoDht11Umidade.canvas.height = 300;
+            var dht11Umidade = new Chart(
+                contextoDht11Umidade,
+                {
+                    type: 'bar',
+                    data: {
+                        datasets: [{
+                            label: 'Umidade',
+                            type: 'line',
+                            borderColor: ['white'],
+                            backgroundColor: ['#89cff0'],
+                            data:[]
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            xAxes: [{
+                                distribution: 'series',
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }],
+                            yAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Umidade'
+                                },
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
+                        animation: {
+                            duration: 0
+                        }
+                    }
+                }
+            );
+
+            /* -- dht11Temperatura -- */
+            // var contextoDht11Temperatura = document.getElementById('dht11Temperatura').getContext('2d');
+            // contextoDht11Temperatura.canvas.width = 1000;
+            // contextoDht11Temperatura.canvas.height = 300;
+            // var dht11Temperatura = new Chart(
+            //     contextoDht11Temperatura,
+            //     {
+            //         type: 'bar',
+            //         data: {
+            //             datasets: [{
+            //                 label: "Temperatura",
+            //                 type: 'line',
+            //                 borderColor: ['#ff3232'],
+            //                 backgroundColor: ['#ff7f7f']
+            //             }]
+            //         },
+            //         options: {
+            //             scales: {
+            //                 xAxes: [{
+            //                     distribution: 'series',
+            //                     ticks: {
+            //                         beginAtZero: true
+            //                     }
+            //                 }],
+            //                 yAxes: [{
+            //                     scaleLabel: {
+            //                         display: true,
+            //                         labelString: 'Luminosidade'
+            //                     },
+            //                     ticks: {
+            //                         beginAtZero: true
+            //                     }
+            //                 }]
+            //             },
+            //             animation: {
+            //                 duration: 0
+            //             }
+            //         }
+            //     }
+            // );
+            /* -- luminosidade -- */
+            // var contextoLuminosidade = document.getElementById('luminosidade').getContext('2d');
+            // contextoLuminosidade.canvas.width = 1000;
+            // contextoLuminosidade.canvas.height = 300;
+            // var luminosidade = new Chart(
+            //     contextoLuminosidade,
+            //     {
+            //         type: 'line',
+            //         data: {
+            //             datasets: [{
+            //                 label: 'Luminosidade',
+            //                 type: 'line',
+            //                 borderColor: ['#ffd902'],
+            //                 backgroundColor: ['#ffe135']
+            //             }]
+            //         },
+            //         options: {
+            //             scales: {
+            //                 xAxes: [{
+            //                     distribution: 'series',
+            //                     ticks: {
+            //                         beginAtZero: true
+            //                     }
+            //                 }],
+            //                 yAxes: [{
+            //                     scaleLabel: {
+            //                         display: true,
+            //                         labelString: 'Luminosidade'
+            //                     },
+            //                     ticks: {
+            //                         beginAtZero: true
+            //                     }
+            //                 }]
+            //             },
+            //             animation: {
+            //                 duration: 0
+            //             }
+            //         }
+            //     }
+            // );
+            /* -- lm35Temperatura */
+            var contextoLm35Temperatura = document.getElementById('lm35Temperatura').getContext('2d');
+            contextoLm35Temperatura.canvas.width = 1000;
+            contextoLm35Temperatura.canvas.height = 300;
+            var lm35Temperatura = new Chart(
+                contextoLm35Temperatura,
+                {
+                    type: 'line',
+                    data: {
+                        datasets: [{
+                            label: 'Temperatura',
+                            type: 'line',
+                            borderColor: ['#ffd902'],
+                            backgroundColor: ['#ffe135']
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            xAxes: [{
+                                distribution: 'series',
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }],
+                            yAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Temperatura'
+                                },
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
+                        animation: {
+                            duration: 0
+                        }
+                    }
+                }
+            );
+            // Umidade Geral dos Caminhões
+            var contextoUmidadeG = document.getElementById('umidade_geral').getContext('2d');
+            contextoUmidadeG.canvas.width = 1000;
+            contextoUmidadeG.canvas.height = 300;
+            var umidade_geral = new Chart(
+                contextoUmidadeG,
+                {
+                    type: 'doughnut',
+                    data: {
+                        datasets: [{
+                            label: 'Umidade Geral',
+                            type: 'doughnut',
+                            borderColor: ['white'],
+                            backgroundColor: ['#89cff0'],
+                            data:[],
+                            fill: false
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            xAxes: [{
+                                distribution: 'series',
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }],
+                            yAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Umidade'
+                                },
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
+                        animation: {
+                            duration: 0
+                        }
+                    }
+                }
+            );
+            // Temperatura Geral dos Caminhões
+            var contextoTemperaturaG = document.getElementById('temperatura_geral').getContext('2d');
+            contextoTemperaturaG.canvas.width = 1000;
+            contextoTemperaturaG.canvas.height = 300;
+            var temperatura_geral = new Chart(
+                contextoTemperaturaG,
+                {
+                    type: 'doughnut',
+                    data: {
+                        datasets: [{
+                            label: 'Umidade Geral',
+                            type: 'doughnut',
+                            borderColor: ['white'],
+                            backgroundColor: ['#89cff0'],
+                            data:[],
+                            fill: false
+                        }],
+                        labels: [
+
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            xAxes: [{
+                                distribution: 'series',
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }],
+                            yAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Umidade'
+                                },
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
+                        animation: {
+                            duration: 0
+                        }
+                    }
+                }
+            );
+
+            // /* -- chave */
+            // var contextoChave = document.getElementById('chave').getContext('2d');
+            // contextoChave.canvas.width = 1000;
+            // contextoChave.canvas.height = 300;
+            // var chave = new Chart(
+            //     contextoChave,
+            //     {
+            //         type: 'line',
+            //         data: {
+            //             datasets: [{
+            //                 label: 'Chave',
+            //                 type: 'line',
+            //                 borderColor: ['#ffd902'],
+            //                 backgroundColor: ['#ffe135']
+            //             }]
+            //         },
+            //         options: {
+            //             scales: {
+            //                 xAxes: [{
+            //                     distribution: 'series',
+            //                     ticks: {
+            //                         beginAtZero: true
+            //                     }
+            //                 }],
+            //                 yAxes: [{
+            //                     scaleLabel: {
+            //                         display: true,
+            //                         labelString: 'Chave'
+            //                     },
+            //                     ticks: {
+            //                         beginAtZero: true
+            //                     }
+            //                 }]
+            //             },
+            //             animation: {
+            //                 duration: 0
+            //             }
+            //         }
+            //     }
+            // );
+
+            var paginacao = {};
+            var tempo = {};
+            function obterDados(grafico, endpoint) {
+                var http = new XMLHttpRequest();
+                http.open('GET', 'http://localhost:3000/sensores/' + endpoint, false);
+                http.send(null);
+                var valores = JSON.parse(http.responseText);
+                if (paginacao[endpoint] == null) {
+                    paginacao[endpoint] = 0;
+                }
+                if (tempo[endpoint] == null) {
+                    tempo[endpoint] = 0;
+                }
+                // Exibir à partir do último elemento exibido anteriormente
+                var ultimaPaginacao = paginacao[endpoint];
+                paginacao[endpoint] = valores.length;
+                var valores = valores.slice(ultimaPaginacao);
+                valores.forEach((valor) => {
+                    //Máximo de 60 itens exibidos no gráfico
+                    if (grafico.data.labels.length == 10 && grafico.data.datasets[0].data.length == 10) {
+                        grafico.data.labels.shift();
+                        grafico.data.datasets[0].data.shift();
+                    }
+
+                    grafico.data.labels.push(tempo[endpoint]++);
+                    grafico.data.datasets[0].data.push(parseFloat(valor));
+                    grafico.update();
+                })
+            }
+
+            setInterval(() => {
+                obterDados(dht11Umidade, 'dht11/umidade');
+                // obterDados(dht11Temperatura, 'dht11/temperatura');
+                // obterDados(luminosidade, 'luminosidade');
+                obterDados(lm35Temperatura, 'lm35/temperatura');
+                // obterDados(chave, 'chave');
+            }, 1000);
+
+        </script>
+</body>
+<script src="https://kit.fontawesome.com/4c5e041356.js" crossorigin="anonymous"></script>
+
+</html>

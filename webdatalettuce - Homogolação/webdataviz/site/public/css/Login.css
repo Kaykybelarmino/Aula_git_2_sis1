@@ -1,0 +1,86 @@
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: white;
+    background-image: url(../assets/imgs/Banner.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 650px;
+    margin: 0;
+}
+
+.boxbar {
+    width: 100%;
+    display: flex;
+    background-color: #e8ffea;
+    justify-content: center;
+    justify-content: space-around;
+    border-bottom: solid #70ca55 2px;
+    margin-bottom: 100px;
+}
+
+.tela_login {
+    width: 650px;
+    height: 300px;
+    background-color: #b6ce94;
+    border-radius: 50px;
+    margin: auto;
+    margin-bottom: 60px;
+    padding: 10px;
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-evenly;
+    text-align: center;
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    color: #494949;
+    font-size: 40px;
+    border-top: none;
+}
+
+input {
+    width: 600px;
+    height: 35px;
+    font-size: 30px;
+    margin-bottom: 3%;
+    border-style: none;
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+
+button {
+    width: 200px;
+    height: 45px;
+    background-color: #8cd147;
+    color: white;
+    font-size: 30px;
+    border-style: none;
+    border-radius: 50px;
+    cursor: pointer;
+    align-items: center;
+}
+
+button a {
+    text-decoration: none;
+    color: white;
+    font-size: 30px;
+}
+
+.loading-div {
+    width: 50px;
+    display: none;
+    margin-left: 45%;
+}
+
+.loading-div img {
+    height: 50px;
+    width: 50px;
+}

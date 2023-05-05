@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="js/funcoes.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="shortcut icon" href="assets/imgs/Logo-Borda.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/cadastro.css">
+</head>
+
+<body>
+    <div class="boxbar">
+        <img class="logo" src="assets/imgs/LOGO.png" alt="logo lettuce company" />
+  
+        <h2>Lettuce Company</h2>
+  
+        <ul class="navbar">
+          <li><a href="index.html">Home</a></li>
+          <li>|</li>
+          <li><a href="login.html">Login</a></li>
+          <li>|</li>
+          <li><a href="Sobre-Nos.html">Sobre Nós</a></li>
+          <li>|</li>
+          <li><a href="Sobre-Projeto.html">Sobre o Projeto</a></li>
+        </ul>
+      </div>
+    <!-- Fim do Header -->
+    <div class="banner">
+        <div class="container">
+            <div class="formulario">
+                <div class="content first-content">
+                    <div class="first-column">
+                        <h2 class="title title-second">Dados do representante</h2>
+                        <div class="form" id="formRepre">
+                            <span>Nome</span>
+                            <input id="input_nome" class="input" placeholder="Insira o nome do responsável">
+                            <span>Sobrenome</span>
+                            <input id="input_sobrenome" class="input" placeholder="Insira o Sobrenome do responsável">
+                            <span>CPF:</span>
+                            <input id="input_cpf" class="input" placeholder="XXX.XXX.XXX-XX">
+                            <!-- <span>Data de nascimento:</span>
+                            <input id="input_dtNasc" class="input" type="date" placeholder="DD/MM/AAAA"> -->
+                            <span>Cargo:</span>
+                            <input id="input_cargo" class="input" placeholder="Insira seu cargo">
+                            <span>Email:</span>
+                            <input id="input_email" class="input" placeholder="Insira seu email">
+                            <span>Senha:</span>
+                            <input id="input_senha" class="input" placeholder="********" type="password">
+                        </div>
+                    </div>
+                    <div class="second-column">
+                        <h2 class="title title-second">Dados da Empresa</h2>
+                        <div class="form">
+                            <span>Empresa:</span>
+                            <input id="input_empresa" class="input" placeholder="Insira sua empresa">
+                            <span>Telefone:</span>
+                            <input id="input_telefone" class="input" placeholder="Insira seu telefone">
+                            <span>CNPJ:</span>
+                            <input id="input_cnpj" class="input" placeholder="00.000.000/0001-00">
+                            <h6>Nosso cadastro consiste no cadastro da empresa simultaneamente do responsável que irá cadastrar
+                                o veículo e os funcionarios da empresa. Lembre-se disso.</h6>
+                        </div>
+                        <button onclick="cadastrar()">Cadastrar</button>
+                        <div id="div_mensagem" class="reprovado">
+                        <div id="div_aguardar" class="loading-div"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fim do Formulário -->
+    <div class="footer">
+        <p class="msg_footer">
+            LettuceCompany©
+        </p>
+        <a href="contato.html">CONTATO</a>
+    </div>
+    </div>
+
+</body>
+
+</html>
+<script>
+    function cadastrar() {
+        div_aguardar.innerHTML = `<img src="./assets/circle-loading.gif" id="loading-gif">`;
+        aguardar();
+
+        //Recupere o valor da nova input pelo nome do id
+        // Agora vá para o método fetch logo abaixo
+        var nomeVar = input_nome.value;
+        var sobrenomeVar = input_sobrenome.value
+        var cpfVar = input_cpf.value;
+        var cargoVar = input_cargo.value;
+        var emailVar = input_email.value;
+        var senhaVar = input_senha.value;
+        var nomeEmprVar = input_empresa.value;
+        var cnpjVar = input_cnpj.value;
+        var telefoneVar = input_telefone.value;
+        
+
+        if (nomeVar == "" || sobrenomeVar == "" || cpfVar == "" || cargoVar == "" ||  emailVar == '' || senhaVar == "" || nomeEmprVar == "" || cnpjVar == "" || telefoneVar == "") {
+            div_mensagem.innerHTML = "(Por favor, preencha todos os campos!)";
+
+            finalizarAguardar();
+            return false;
+        // } else if (cpfVar.length < 11 || cpfVar.length > 11) {
+        //     div_mensagem.innerHTML = "(Formato de cpf invalido!)";
+        //     finalizarAguardar();
+        //     return false;
+        // } else if (cpfVar.length < 14 || cpfVar.length > 14) {
+        //     div_mensagem.innerHTML = "(Formato de cnpj invalido!)";
+        //     finalizarAguardar();
+        //     return false;
+        }  else if (senhaVar.length > 6 && senhaVar.indexOf('!') != -1 || senhaVar.indexOf('@') != -1 || senhaVar.indexOf('#') != -1 || senhaVar.indexOf('$') != -1 || senhaVar.indexOf('%') != -1 || senhaVar.indexOf('&') != -1 || senhaVar.indexOf('*') != -1 || senhaVar.indexOf('(') != -1 || senhaVar.indexOf(')') != -1 || senhaVar.indexOf('¨') != -1 || senhaVar.indexOf('-') != -1 || senhaVar.indexOf('_') != -1 || senhaVar.indexOf('=') != -1 || senhaVar.indexOf('+') != -1 || senhaVar.indexOf('§') != -1 || senhaVar.indexOf('´') != -1 || senhaVar.indexOf('`') != -1 || senhaVar.indexOf('[') != -1 || senhaVar.indexOf(']') != -1 || senhaVar.indexOf('{') != -1 || senhaVar.indexOf('}') != -1 || senhaVar.indexOf('ª') != -1 || senhaVar.indexOf('º') != -1 || senhaVar.indexOf('~') != -1 || senhaVar.indexOf('^') != -1 || senhaVar.indexOf(';') != -1 || senhaVar.indexOf(':') != -1 || senhaVar.indexOf('.') != -1 || senhaVar.indexOf('>') != -1 || senhaVar.indexOf('<') != -1 || senhaVar.indexOf(',') != -1 || senhaVar.indexOf('/') != -1 || senhaVar.indexOf('?') != -1 || senhaVar.indexOf('°') != -1 || senhaVar.indexOf('|') != -1 || senhaVar.indexOf(`'`) != -1 || senhaVar.indexOf('"') != -1) {
+            setInterval(sumirMensagem, 5000)
+        }
+
+        else {
+            div_mensagem.innerHTML = "Senha deve conter mais de 6 caracteres e um caractere especial";
+            finalizarAguardar();
+            return false;
+        }
+
+        // Enviando o valor da nova input
+        fetch("/usuarios/cadastrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                // crie um atributo que recebe o valor recuperado aqui
+                // Agora vá para o arquivo routes/usuario.js
+                nomeServer: nomeVar,
+                sobrenomeServer: sobrenomeVar,
+                cpfServer: cpfVar,
+                cargoServer: cargoVar,
+                emailServer: emailVar,
+                senhaServer: senhaVar,
+                nomeEmprServer: nomeEmprVar,
+                cnpjServer: cnpjVar,
+                telefoneServer: telefoneVar
+            })
+        }).then(function (resposta) {
+
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+
+                div_aguardar.innerHTML = ``;
+                div_mensagem.innerHTML = "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+                setTimeout(() => {
+                    window.location = "login.html";
+                }, "2000")
+
+                limparFormulario();
+                finalizarAguardar();
+            } else {
+                throw ("Houve um erro ao tentar realizar o cadastro!");
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+            finalizarAguardar();
+        });
+
+        return false;
+    }
+
+    function sumirMensagem() {
+        div_mensagem.style.display = "none"
+    }
+</script>
